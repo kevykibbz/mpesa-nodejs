@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 
-var serviceAccount=require("./liquidtech-2339e-firebase-adminsdk-k5hcn-c8447ea280.json");
+var serviceAccount=require("./keys/serviceAccount.json");
 admin.initializeApp({credential:admin.credential.cert(serviceAccount)});
 
 // const db=admin.firestore();
