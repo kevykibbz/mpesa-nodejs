@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const parentCollectionName=process.env.PARENTCOLLECTIONNAME;
 const childCollectionName=process.env.CHILDCOLLECTIONNAME;
+const callBackUrl=process.env.CALLBACK || "/";
 const port=process.env.PORT || 80;
 
 
@@ -20,13 +21,9 @@ app.use(cors());
 var serviceAccount=require("./keys/serviceAccount.json");
 admin.initializeApp({credential:admin.credential.cert(serviceAccount)});
 
-// const db=admin.firestore();
-// let usersRef=db.collection("users");
-// usersRef.get().then((querySnapshot)=>{
-//     querySnapshot.forEach(document=>{
-//         console.log(document.data());
-//     });
-// });
+app.get("/",(req,res)=>{
+    res.send("Server is working.");
+});
 
 app.post("/",async(req,res)=>{
     const callbackData=req.body.Body.stkCallback;
@@ -49,25 +46,27 @@ app.post("/",async(req,res)=>{
             "Date Completed":transactionDate,
             "Status":"Completed",
         }; 
-        const location=admin.firestore().collection(parentCollectionName).doc("ucTaacB86BdH2lnPsZaKqzJoC4L2").collection(childCollectionName).doc(mCheckoutRequestID);
-
-        await location
-        .get()
-        .then(async(value)=>{
-            if(value.exists){
-                await location
-                .update(mEntryDetails)
-                .then((value)=>{
-                    console.log("data updated successfully");
-                })
-                .catch((e)=>{
-                    console.log(`error:${e}`);
-                });
-            }
-        })
-        .catch((e)=>{
-            console.log(`error:${e}`);
-        });
+        await admin.firestore()
+            .collection(childCollectionName)
+            .doc(mCheckoutRequestID)
+            .get()
+            .then(async(value)=>{
+                if(value.exists){
+                    await admin.firestore()
+                    .collection(childCollectionName)
+                    .doc(mCheckoutRequestID)
+                    .update(mEntryDetails)
+                    .then((value)=>{
+                        console.log("data updated successfully");
+                    })
+                    .catch((e)=>{
+                        console.log(`error:${e}`);
+                    });
+                }
+            })
+            .catch((e)=>{
+                console.log(`error:${e}`);
+            });
         return res.json("ok");
     }else{
         return res.json("ok");
