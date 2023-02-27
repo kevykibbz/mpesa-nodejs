@@ -13,6 +13,7 @@ const app=express();
 app.listen(port,()=>{
     console.log("Sever started...");
 });
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());
@@ -27,48 +28,44 @@ app.get("/",(req,res)=>{
 
 app.post("/",async(req,res)=>{
     const callbackData=req.body.Body.stkCallback;
-    const responseCode=callbackData.ResultCode;
+    const resultCode=callbackData.ResultCode;
     const mCheckoutRequestID=callbackData.CheckoutRequestID;
-    if(responseCode === 0)
+    const metaData=callbackData.CallbackMetadata;
+    var mAmountPaid=mReceipt=transactionDate=mPhonePaidFrom="";
+    
+    if(metaData !=undefined)
     {
-        const details=callbackData.CallbackMetadata.Item;
-
-        const mAmountPaid=details[0].Value;
-        const mReceipt=details[1].Value;
-        const transactionDate=details[2].Value
-        const mPhonePaidFrom=details[3].Value;
-
-
-        const mEntryDetails={
-            "Receipt":mReceipt,
-            "Phone":mPhonePaidFrom,
-            "Amount":mAmountPaid,
-            "Date Completed":transactionDate,
-            "Status":"Completed",
-        }; 
-        await admin.firestore()
-            .collection(childCollectionName)
-            .doc(mCheckoutRequestID)
-            .get()
-            .then(async(value)=>{
-                if(value.exists){
-                    await admin.firestore()
-                    .collection(childCollectionName)
-                    .doc(mCheckoutRequestID)
-                    .update(mEntryDetails)
-                    .then((value)=>{
-                        console.log("data updated successfully");
-                    })
-                    .catch((e)=>{
-                        console.log(`error:${e}`);
-                    });
-                }
-            })
-            .catch((e)=>{
-                console.log(`error:${e}`);
-            });
-        return res.json("ok");
-    }else{
-        return res.json("ok");
+        //success request 
+        const details=metaData.Item;
+        mAmountPaid=details[0].Value;
+        mReceipt=details[1].Value;
+        transactionDate=details[2].Value
+        mPhonePaidFrom=details[3].Value;
+       
     }
+
+    const mEntryDetails={
+        "ResultCode":resultCode,
+        "Receipt":mReceipt,
+        "Phone":mPhonePaidFrom,
+        "Amount":mAmountPaid,
+        "Date Completed":transactionDate,
+        "Status":"Completed",
+    };
+    await admin.firestore()
+        .collection(childCollectionName)
+        .doc(mCheckoutRequestID)
+        .get()
+        .then(async(value)=>{
+            if(value.exists){
+                await admin.firestore()
+                .collection(childCollectionName)
+                .doc(mCheckoutRequestID)
+                .update(mEntryDetails);
+            }
+        })
+        .catch((e)=>{
+            console.log(`error:${e}`);
+        });
+    return res.json("data received successfully");
 });
