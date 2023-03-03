@@ -1,15 +1,17 @@
 <h1 align="center">Hi there 👋</h1>
 
-<h3>
+<p>
     This is Lipa na Mpesa callback intergration of saving callback results from safaricom into firebase firestore database implement by node js.
     Feel free to make pull requests to make changes.
-</h3>
+</p>
 
 - 🌱 Feel free to use it in your project
 
 - 💬 Make pull requests to modify*
 
 - 📫 How to reach me **kibebekevin@gmail.com**
+
+- 📫 Call **254796268817**
 
 - ⚡ Fun fact **Fork and star it 🤪**
 
