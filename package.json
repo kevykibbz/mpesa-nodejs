@@ -8,8 +8,7 @@
     "start": "node ./index.js",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "dev":"nodemon ./index.js"
-
+    "dev": "nodemon ./index.js"
   },
   "engines": {
     "node": "16"
@@ -21,7 +20,10 @@
     "dotenv": "^16.0.3",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0",
-    "reactjs": "^1.0.0"
+    "reactjs": "^1.0.0",
+    "request": "^2.88.2",
+    "requests": "^0.3.0",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
     "eslint": "^8.9.0",
