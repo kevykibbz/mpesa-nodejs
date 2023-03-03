@@ -1,4 +1,4 @@
-const admin=require("request");
+const request=require("request");
 const cors=require("cors");
 const express=require("express");
 require("dotenv").config();
@@ -22,21 +22,48 @@ app.use(cors());
 
 
 
-app.get("/register/url",(req,response)=>{
-    let url="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-    let auth=new Buffer(consumerKey+":"+consumerSecret).toString("base64")
-    request(
+/*get the access token*/
+const generateToken=async(req,res,next)=>{
+    let url="https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+    let auth=`Basic ${new Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64")}`
+    await axios.get(url,{
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":auth
+        }
+    })
+    .then((response)=>{
+        res.locals.access_token=response.data.access_token
+        next()
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
+}
+
+
+
+
+app.get("/register/url",generateToken,async(req,res)=>{
+    let access_token=res.locals.access_token
+    const url= 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl'
+    const auth = `Bearer ${access_token}`
+    const data={'ShortCode':shortCode,'ResponseType': 'Completed','ConfirmationURL':confirmationUrl,'ValidationURL': validationUrl}
+    request.post(
         {
             url:url,
-            header:{
-                "Authorization":"Basic " + auth
-            }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': auth
+            },
+            json:data
         },
         (error,response,body)=>{
             if(error){
                 console.error(error)
             }else{
-                response.status(200).json(body)
+                res.status(200).json(body)
             }
         }
     )
