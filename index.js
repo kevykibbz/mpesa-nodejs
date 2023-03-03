@@ -15,6 +15,9 @@ const port=process.env.PORT || 80;
 
 
 const app=express();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
 app.listen(port,(err,live)=>{
     if(err){
         console.error(err);
@@ -22,9 +25,7 @@ app.listen(port,(err,live)=>{
     console.info("Sever started...");
 });
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(cors());
+
 
 
 var serviceAccount=require("./keys/serviceAccount.json");
