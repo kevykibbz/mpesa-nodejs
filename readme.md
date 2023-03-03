@@ -1,8 +1,9 @@
-This is Lipa na Mpesa callback intergration of saving callback results from safaricom into firebase firestore database implement by node js.
-Feel free to make pull requests to make changes.
-![MasterHead](https://mir-s3-cdn-cf.behance.net/project_modules/fs/54b6c068097599.5b50bca476b9b.gif)
 <h1 align="center">Hi there 👋</h1>
-<h3 align="center">This is a node js mpesa callback registration link</h3>
+
+<h3>
+    This is Lipa na Mpesa callback intergration of saving callback results from safaricom into firebase firestore database implement by node js.
+    Feel free to make pull requests to make changes.
+</h3>
 
 - 🌱 Feel free to use it in your project
 
@@ -137,17 +138,4 @@ Feel free to make pull requests to make changes.
 	<a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> 
 		<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> 
 	</a> 
-</p>
-
-<p>
-	<img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=kevykibbz&show_icons=true&locale=en&layout=compact" alt="kevykibbz" />
-</p>
-
-<p>
-	&nbsp;
-	<img align="center" src="https://github-readme-stats.vercel.app/api?username=kevykibbz&show_icons=true&locale=en" alt="kevykibbz" />
-</p>
-
-<p>
-	<img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=kevykibbz&" alt="kevykibbz" />
 </p>
