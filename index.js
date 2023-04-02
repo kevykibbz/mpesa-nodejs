@@ -26,7 +26,7 @@ var serviceAccount=require("./keys/serviceAccount.json");
 admin.initializeApp({credential:admin.credential.cert(serviceAccount)});
 
 /*testing the server*/
-app.get(callbackUrl, async(req,res)=>{
+app.get("/pesaflows/confirm/callback/url", async(req,res)=>{
     res.send("Server is working.");
 });
 
