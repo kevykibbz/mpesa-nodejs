@@ -32,7 +32,7 @@ app.get(`${callbackUrl}`, async(req,res)=>{
 
 
 
-app.post(callbackUrl,async(req,res)=>{
+app.post(`${callbackUrl}`,async(req,res)=>{
     const callbackData=req.body.Body.stkCallback;
     const resultCode=callbackData.ResultCode;
     const mCheckoutRequestID=callbackData.CheckoutRequestID;
